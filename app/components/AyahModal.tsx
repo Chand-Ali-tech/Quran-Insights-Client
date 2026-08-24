@@ -210,12 +210,12 @@ export const AyahModal: React.FC<AyahModalProps> = ({
               {/* Arabic Verse Card */}
               <div className="relative rounded-2xl border border-emerald-500/20 bg-gradient-to-b from-emerald-950/20 to-slate-900/60 p-6 shadow-inner">
                 <p
-                  className={`font-arabic text-right text-emerald-100 drop-shadow-sm select-text ${getFontSizeClass()}`}
+                  className={`font-arabic text-right text-emerald-100 drop-shadow-sm select-text leading-relaxed ${getFontSizeClass()}`}
                   dir="rtl"
                 >
-                  {ayahData.text_arabic}{" "}
-                  <span className="inline-block px-1 text-amber-400 font-arabic text-2xl">
-                    ۝
+                  {ayahData.text_arabic}
+                  <span className="inline-block mx-3 text-amber-400 font-arabic text-2xl select-none align-middle">
+                    {"\u00A0"}۝
                   </span>
                 </p>
 

@@ -39,6 +39,7 @@ export async function sendChatMessageJSON(
   query: string,
   similarityThreshold?: number,
   baseUrl: string = DEFAULT_BACKEND_URL,
+  history?: { role: string; content: string }[],
 ): Promise<{
   query: string;
   detected_language: string;
@@ -46,11 +47,18 @@ export async function sendChatMessageJSON(
   answer: string;
   sources: SourceAyah[];
 }> {
-  const payload: { query: string; similarity_threshold?: number } = {
+  const payload: {
+    query: string;
+    similarity_threshold?: number;
+    history?: { role: string; content: string }[];
+  } = {
     query: query.trim(),
   };
   if (typeof similarityThreshold === "number") {
     payload.similarity_threshold = similarityThreshold;
+  }
+  if (history && history.length > 0) {
+    payload.history = history;
   }
 
   const res = await fetch(`${baseUrl}/chat`, {
@@ -89,12 +97,20 @@ export async function sendChatMessageStream(
     onError?: (err: Error) => void;
   },
   abortSignal?: AbortSignal,
+  history?: { role: string; content: string }[],
 ): Promise<void> {
-  const payload: { query: string; similarity_threshold?: number } = {
+  const payload: {
+    query: string;
+    similarity_threshold?: number;
+    history?: { role: string; content: string }[];
+  } = {
     query: query.trim(),
   };
   if (typeof similarityThreshold === "number") {
     payload.similarity_threshold = similarityThreshold;
+  }
+  if (history && history.length > 0) {
+    payload.history = history;
   }
 
   try {

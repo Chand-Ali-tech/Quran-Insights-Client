@@ -110,9 +110,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Search Bar if chats or bookmarks exist */}
-        <div className="p-3">
+        <div className="p-2">
           <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-500" />
+            <Search className="pointer-events-none absolute left-2.5 top-2 h-3.5 w-3.5 text-slate-500" />
             <input
               type="text"
               value={searchQuery}
@@ -122,35 +122,35 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   ? "Search conversation titles..."
                   : "Filter saved verses..."
               }
-              className="w-full rounded-lg border border-slate-800 bg-slate-900/60 py-1.5 pl-8 pr-3 text-xs text-slate-200 placeholder-slate-500 focus:border-emerald-500/40 focus:outline-none"
+              className="w-full rounded-lg border border-slate-800 bg-slate-900/60 py-1 pl-7 pr-2.5 text-xs text-slate-200 placeholder-slate-500 focus:border-emerald-500/40 focus:outline-none"
             />
           </div>
         </div>
 
         {/* Main List Container */}
-        <div className="flex-1 overflow-y-auto px-3 space-y-1.5">
+        <div className="flex-1 overflow-y-auto px-2.5 space-y-0.5">
           {activeTab === "chats" ? (
             <>
-              <div className="mb-2">
+              <div className="mb-1.5">
                 <button
                   onClick={() => {
                     onNewChat();
                     if (window.innerWidth < 1024) onClose();
                   }}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-950/40 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40 transition-all shadow-sm"
+                  className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-950/40 py-1.5 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40 transition-all shadow-sm"
                 >
-                  <Sparkles className="h-3.5 w-3.5 text-emerald-400" />
+                  <Sparkles className="h-3 w-3 text-emerald-400" />
                   <span>+ Start New Chat</span>
                 </button>
               </div>
 
               {filteredConversations.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-8 text-center text-slate-500">
-                  <MessageSquare className="h-8 w-8 stroke-[1.5] text-slate-600 mb-2" />
+                <div className="flex flex-col items-center justify-center py-6 text-center text-slate-500">
+                  <MessageSquare className="h-7 w-7 stroke-[1.5] text-slate-600 mb-1.5" />
                   <p className="text-xs font-medium text-slate-400">
                     No chat history yet
                   </p>
-                  <p className="text-[11px] text-slate-500 max-w-[200px] mt-1 mb-3">
+                  <p className="text-[11px] text-slate-500 max-w-[200px] mt-0.5 mb-2">
                     Ask questions about any Quranic concept to start.
                   </p>
                   <button
@@ -160,7 +160,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       );
                       if (window.innerWidth < 1024) onClose();
                     }}
-                    className="rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-[11px] text-emerald-300 hover:bg-slate-800"
+                    className="rounded-lg border border-slate-800 bg-slate-900 px-2.5 py-1 text-[11px] text-emerald-300 hover:bg-slate-800"
                   >
                     Try: &quot;Patience in the Quran&quot;
                   </button>
@@ -175,19 +175,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         onSelectConversation(conv.id);
                         if (window.innerWidth < 1024) onClose();
                       }}
-                      className={`group relative flex cursor-pointer items-center justify-between rounded-xl px-3 py-2.5 text-xs transition-all ${
+                      className={`group relative flex cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-all ${
                         isActive
-                          ? "border border-emerald-500/40 bg-emerald-950/40 text-emerald-200"
-                          : "border border-transparent hover:border-slate-800 hover:bg-slate-900/60 text-slate-300"
+                          ? "border border-emerald-500/40 bg-emerald-950/40 text-emerald-200 font-medium"
+                          : "border border-transparent hover:border-slate-800/80 hover:bg-slate-900/60 text-slate-300"
                       }`}
                     >
-                      <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                      <div className="flex items-center gap-2 min-w-0 pr-1.5">
                         <MessageSquare
                           className={`h-3.5 w-3.5 flex-shrink-0 ${
                             isActive ? "text-emerald-400" : "text-slate-500"
                           }`}
                         />
-                        <span className="truncate font-medium">
+                        <span className="truncate text-xs">
                           {conv.title || "Quran Insight Query"}
                         </span>
                       </div>
@@ -198,7 +198,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           onDeleteConversation(conv.id);
                         }}
                         title="Delete conversation"
-                        className="opacity-0 group-hover:opacity-100 flex h-6 w-6 items-center justify-center rounded text-slate-500 hover:bg-rose-950/40 hover:text-rose-400 transition-opacity"
+                        className="opacity-0 group-hover:opacity-100 flex h-5 w-5 items-center justify-center rounded text-slate-500 hover:bg-rose-950/40 hover:text-rose-400 transition-opacity"
                       >
                         <Trash2 className="h-3 w-3" />
                       </button>
@@ -210,12 +210,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ) : (
             <>
               {bookmarks.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-10 text-center text-slate-500">
-                  <Bookmark className="h-8 w-8 stroke-[1.5] text-slate-600 mb-2" />
+                <div className="flex flex-col items-center justify-center py-8 text-center text-slate-500">
+                  <Bookmark className="h-7 w-7 stroke-[1.5] text-slate-600 mb-1.5" />
                   <p className="text-xs font-medium text-slate-400">
                     No bookmarked verses
                   </p>
-                  <p className="text-[11px] text-slate-500 max-w-[200px] mt-1">
+                  <p className="text-[11px] text-slate-500 max-w-[200px] mt-0.5">
                     Click the bookmark icon on any cited Ayah to save it here.
                   </p>
                 </div>
@@ -223,37 +223,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 bookmarks.map((b) => (
                   <div
                     key={b.verse_id}
-                    className="group rounded-xl border border-slate-800/80 bg-slate-900/50 p-2.5 text-xs transition-all hover:border-amber-500/30 hover:bg-slate-850"
+                    className="group relative flex flex-col rounded-lg border border-slate-800/80 bg-slate-900/40 p-2 text-xs transition-all hover:border-amber-500/30 hover:bg-slate-850"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-semibold text-amber-300">
-                        {b.surah_name_roman} [{b.verse_id}]
-                      </span>
-                      <button
-                        onClick={() => onRemoveBookmark(b.verse_id)}
-                        className="text-slate-500 hover:text-rose-400"
-                        title="Remove bookmark"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </button>
-                    </div>
-                    <p className="line-clamp-2 text-[11px] text-slate-300 font-arabic mb-1 text-right">
-                      {b.text_arabic}
-                    </p>
-                    <div className="flex items-center justify-between pt-1 border-t border-slate-800/50">
-                      <span className="text-[10px] text-slate-500">
-                        {b.place_of_revelation}
-                      </span>
                       <button
                         onClick={() =>
                           onOpenAyahModal(b.surah_number, b.ayah_number)
                         }
-                        className="text-[10px] font-medium text-emerald-400 hover:underline flex items-center gap-0.5"
+                        className="flex items-center gap-1 font-semibold text-amber-300 hover:underline text-xs"
                       >
-                        <span>View</span>
-                        <ChevronRight className="h-2.5 w-2.5" />
+                        <span>
+                          {b.surah_name_roman} [{b.verse_id}]
+                        </span>
+                        <ChevronRight className="h-3 w-3 text-amber-400" />
+                      </button>
+
+                      <button
+                        onClick={() => onRemoveBookmark(b.verse_id)}
+                        title="Remove bookmark"
+                        className="text-slate-500 hover:text-rose-400 transition-colors"
+                      >
+                        <Trash2 className="h-3 w-3" />
                       </button>
                     </div>
+
+                    <p
+                      className="line-clamp-1 text-[11px] text-slate-300 font-arabic mb-1 text-right"
+                      dir="rtl"
+                    >
+                      {b.text_arabic}
+                    </p>
+                    <p className="line-clamp-1 text-[10px] text-slate-400 italic">
+                      &ldquo;{b.translation}&rdquo;
+                    </p>
                   </div>
                 ))
               )}

@@ -243,29 +243,16 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                               className="rounded-2xl border border-slate-800/90 bg-gradient-to-b from-[#0d1826]/90 to-[#09111c]/90 p-4 transition-all hover:border-emerald-500/30 shadow-md"
                             >
                               {/* Source Header */}
-                              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/60 pb-2.5 mb-2.5">
-                                <div className="flex items-center gap-2">
-                                  <span className="rounded-lg bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 text-xs font-bold text-emerald-300">
-                                    {src.surah_name_roman} [{src.verse_id}]
-                                  </span>
-                                  <span className="text-xs text-amber-300 font-arabic font-semibold">
-                                    {src.surah_name_arabic}
-                                  </span>
-                                  <span className="text-[10px] text-slate-400 rounded bg-slate-800/60 px-1.5 py-0.5">
-                                    {src.place_of_revelation}
-                                  </span>
-                                </div>
-
-                                {/* Match Score Meter */}
-                                <div className="flex items-center gap-2">
-                                  <span
-                                    title="Semantic Similarity Match Score"
-                                    className="text-[10px] font-mono font-semibold text-teal-300 rounded-full border border-teal-500/20 bg-teal-950/50 px-2 py-0.5"
-                                  >
-                                    {(src.similarity_score * 100).toFixed(0)}%
-                                    Match
-                                  </span>
-                                </div>
+                              <div className="flex items-center gap-2 border-b border-slate-800/60 pb-2.5 mb-2.5">
+                                <span className="rounded-lg bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 text-xs font-bold text-emerald-300">
+                                  {src.surah_name_roman} [{src.verse_id}]
+                                </span>
+                                <span className="text-xs text-amber-300 font-arabic font-semibold">
+                                  {src.surah_name_arabic}
+                                </span>
+                                <span className="text-[10px] text-slate-400 rounded bg-slate-800/60 px-1.5 py-0.5">
+                                  {src.place_of_revelation}
+                                </span>
                               </div>
 
                               {/* Arabic Text */}
@@ -273,9 +260,9 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                                 dir="rtl"
                                 className="text-right text-base sm:text-lg font-arabic text-emerald-100 drop-shadow-sm leading-loose mb-2 select-text"
                               >
-                                {src.text_arabic}{" "}
-                                <span className="text-amber-400 font-arabic px-1 text-lg">
-                                  ۝
+                                {src.text_arabic}
+                                <span className="inline-block mx-3 text-amber-400 font-arabic text-xl select-none align-middle">
+                                  {"\u00A0"}۝
                                 </span>
                               </p>
 

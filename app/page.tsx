@@ -145,6 +145,10 @@ export default function HomePage() {
 
     const assistantMsgId = `asst-${Date.now()}`;
 
+    const historyPayload = messages
+      .filter((m) => m.content && !m.error)
+      .map((m) => ({ role: m.role, content: m.content }));
+
     // Check if streaming enabled
     if (settings.streamingEnabled) {
       const tempAssistantMsg: ChatMessage = {
@@ -211,6 +215,7 @@ export default function HomePage() {
                   queryText,
                   settings.similarityThreshold,
                   settings.backendUrl,
+                  historyPayload,
                 );
                 const updated = newMessages.concat({
                   id: assistantMsgId,
@@ -244,6 +249,7 @@ export default function HomePage() {
             },
           },
           abortControllerRef.current.signal,
+          historyPayload,
         );
       } catch {
         setIsLoading(false);
@@ -255,6 +261,7 @@ export default function HomePage() {
           queryText,
           settings.similarityThreshold,
           settings.backendUrl,
+          historyPayload,
         );
 
         const finishedMessages = [

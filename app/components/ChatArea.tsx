@@ -64,8 +64,13 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
       return;
     }
 
-    if (isAutoScrollEnabled.current) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (isAutoScrollEnabled.current && containerRef.current) {
+      if (lastMsg.isStreaming) {
+        // Instant direct scroll prevents animation frame collisions and eliminates screen shaking
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+      } else {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }
     }
   }, [messages, isLoading]);
 
@@ -126,75 +131,78 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
               <div className="ambient-hero-glow absolute -inset-6 -z-10 rounded-full blur-2xl opacity-60" />
 
               {/* Bismillah Calligraphy */}
-              <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-gradient-to-r from-amber-950/40 via-emerald-950/40 to-amber-950/40 px-4 py-1 shadow-md shadow-amber-950/30">
-                <span className="font-arabic text-base sm:text-lg text-amber-300 drop-shadow-sm font-semibold tracking-wide">
-                  بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+              <div className="mb-0.5 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-950/40 px-3.5 py-1 text-xs text-emerald-300 shadow-inner">
+                <span className="font-arabic text-sm text-amber-300">۞</span>
+                <span className="font-arabic tracking-wide text-xs">
+                  بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
                 </span>
+                <span className="font-arabic text-sm text-amber-300">۞</span>
               </div>
 
-              {/* Hero Title & Subtitle */}
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-100 max-w-2xl leading-tight">
-                Divine Wisdom,{" "}
+              {/* Title Header */}
+              <h1 className="mt-2 text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+                Quranic{" "}
                 <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300 bg-clip-text text-transparent">
-                  Illuminated by AI
+                  Insights
                 </span>
               </h1>
-
-              <p className="mt-1.5 max-w-lg text-xs text-slate-400 leading-normal">
-                Ask questions across 6,236 verses in English, Urdu, or Arabic
-                with authentic citations & recitations.
+              <p className="mt-1 text-xs sm:text-sm text-slate-400 max-w-lg">
+                Explore deep authentic wisdom, tafsir, thematic connections, and
+                multilingual answers directly grounded in the Holy Quran.
               </p>
             </div>
 
-            {/* Simple Curated Questions (No heavy boxes) */}
-            <div className="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto pt-0.5">
-              {CURATED_HERO_PROMPTS.map((item) => {
-                const isArOrUr = item.lang === "ar" || item.lang === "ur";
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => onSelectPrompt(item.query)}
-                    className="group inline-flex items-center gap-1.5 rounded-full border border-slate-800/80 bg-slate-900/60 px-3.5 py-1.5 text-xs text-slate-300 transition-all hover:border-emerald-500/40 hover:bg-emerald-950/40 hover:text-emerald-200 shadow-sm"
-                  >
-                    <span className="text-amber-400 text-[10px] transition-transform group-hover:scale-110">
-                      ✦
-                    </span>
-                    <span
-                      className={
-                        isArOrUr ? "font-arabic text-xs leading-normal" : ""
-                      }
+            {/* ── Curated Multilingual Question Pills ─────────────────────── */}
+            <div className="w-full max-w-3xl pt-2">
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {CURATED_HERO_PROMPTS.map((item) => {
+                  const isArOrUr = item.lang === "ar" || item.lang === "ur";
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => onSelectPrompt(item.query)}
+                      className="group inline-flex items-center gap-1.5 rounded-full border border-slate-800/80 bg-slate-900/60 px-3.5 py-1.5 text-xs text-slate-300 transition-all hover:border-emerald-500/40 hover:bg-emerald-950/40 hover:text-emerald-200 shadow-sm"
                     >
-                      {item.label}
-                    </span>
-                  </button>
-                );
-              })}
+                      <span className="text-amber-400 text-[10px] transition-transform group-hover:scale-110">
+                        ✦
+                      </span>
+                      <span
+                        className={
+                          isArOrUr ? "font-arabic text-xs leading-normal" : ""
+                        }
+                      >
+                        {item.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         ) : (
-          /* ── 2. Active Chat Stream ────────────────────────────────────────── */
+          /* ── 2. Active Chat Messages ─────────────────────────────────────── */
           messages.map((msg) => {
             const isUser = msg.role === "user";
 
             return (
               <div
                 key={msg.id}
-                className={`flex gap-3 sm:gap-4 ${
+                className={`flex gap-3 sm:gap-4 items-start ${
                   isUser ? "justify-end" : "justify-start"
                 } animate-fadeIn`}
               >
                 {/* Assistant Avatar */}
                 {!isUser && (
                   <div className="flex-shrink-0">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 via-teal-700 to-emerald-950 border border-emerald-400/30 shadow-md shadow-emerald-950/40 text-amber-300">
-                      <span className="text-sm font-arabic font-bold">۞</span>
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 text-amber-300 shadow-md border border-emerald-400/30 font-arabic font-bold text-sm">
+                      ۞
                     </div>
                   </div>
                 )}
 
                 {/* Message Bubble Container */}
                 <div
-                  className={`flex flex-col max-w-[92%] sm:max-w-[82%] space-y-2 ${
+                  className={`flex flex-col space-y-2 max-w-[92%] sm:max-w-[85%] ${
                     isUser ? "items-end" : "items-start"
                   }`}
                 >
@@ -208,7 +216,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                   >
                     {isUser ? (
                       <p className="whitespace-pre-wrap">{msg.content}</p>
-                    ) : (
+                    ) : msg.content ? (
                       <div className="markdown-content space-y-2 select-text">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {msg.content}
@@ -218,6 +226,11 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                         {msg.isStreaming && (
                           <span className="streaming-cursor" />
                         )}
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2.5 text-slate-300 py-1 text-xs sm:text-sm">
+                        <Loader2 className="h-4 w-4 animate-spin text-emerald-400" />
+                        <span>Synthesizing answer from Quranic verses...</span>
                       </div>
                     )}
                   </div>

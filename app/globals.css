@@ -1,26 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #070d14;
+    --foreground: #f8fafc;
+    --card: #0d1624;
+    --card-foreground: #f1f5f9;
+    --popover: #0f1a2c;
+    --popover-foreground: #f8fafc;
+    --primary: #10b981;
+    --primary-foreground: #022c22;
+    --secondary: #1e293b;
+    --secondary-foreground: #f8fafc;
+    --muted: #1a2436;
+    --muted-foreground: #94a3b8;
+    --accent: #d97706;
+    --accent-foreground: #ffffff;
+    --border: #1e2d42;
+    --input: #152234;
+    --ring: #10b981;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #070d14;
+  color: #f1f5f9;
+  font-family:
+    "Plus Jakarta Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  overflow-x: hidden;
+}
+
+.font-arabic {
+  font-family:
+    "Amiri", "Noto Naskh Arabic", "Traditional Arabic", "Scheherazade New",
+    serif;
+  letter-spacing: 0;
+  line-height: 2.2;
+}
+
+.font-urdu {
+  font-family:
+    "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting", "Amiri",
+    serif;
+  line-height: 2;
+}
+
+/* ── Ambient Background Lighting ────────────────────────────────────────── */
+.ambient-bg {
+  background-color: #060b12;
+  background-image:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(16, 185, 129, 0.12) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(217, 119, 6, 0.08) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 50% 60%,
+      rgba(6, 78, 59, 0.15) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 80% 85%,
+      rgba(16, 185, 129, 0.09) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 20% 90%,
+      rgba(15, 23, 42, 0.8) 0%,
+      transparent 70%
+    );
+}
+
+.ambient-hero-glow {
+  background: radial-gradient(
+    ellipse 600px 300px at 50% 30%,
+    rgba(16, 185, 129, 0.18),
+    rgba(217, 119, 6, 0.06) 50%,
+    transparent 80%
+  );
+}
+
+.islamic-geometry-bg {
+  background-image: radial-gradient(
+    rgba(16, 185, 129, 0.08) 1px,
+    transparent 0
+  );
+  background-size: 28px 28px;
+  background-position: -19px -19px;
+}
+
+/* ── Glassmorphic Card Accents ──────────────────────────────────────────── */
+.glass-panel {
+  background: rgba(13, 22, 36, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-panel-hover {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(18, 30, 48, 0.82);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
+  transform: translateY(-2px);
+}
+
+.glass-input-box {
+  background: rgba(11, 19, 31, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(16, 185, 129, 0.08);
+}
+
+.glass-input-box:focus-within {
+  border-color: rgba(16, 185, 129, 0.45);
+  box-shadow:
+    0 12px 40px 0 rgba(0, 0, 0, 0.55),
+    0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* ── Gold & Emerald Glowing Borders ─────────────────────────────────────── */
+.gold-glow {
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.25);
+}
+
+.emerald-glow {
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+}
+
+.subtle-emerald-border {
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* ── Custom Sleek Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(7, 13, 20, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(45, 62, 80, 0.6);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.4);
+}
+
+/* ── Typing Pulse Cursor ────────────────────────────────────────────────── */
+@keyframes cursor-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.streaming-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 18px;
+  background-color: #10b981;
+  margin-left: 4px;
+  vertical-align: middle;
+  border-radius: 2px;
+  animation: cursor-blink 0.8s infinite;
+}
+
+/* ── Prose Markdown Polish for Quran Q&A ────────────────────────────────── */
+.markdown-content p {
+  margin-bottom: 0.9rem;
+  line-height: 1.75;
+}
+
+.markdown-content p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content strong {
+  color: #34d399;
+  font-weight: 600;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.35rem;
+  line-height: 1.65;
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid #f59e0b;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #fde68a;
+  background: rgba(245, 158, 11, 0.05);
+  padding: 0.5rem 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 0.75rem 0;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  color: #f8fafc;
+  font-weight: 700;
+  margin-top: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.markdown-content h1 {
+  font-size: 1.4rem;
+}
+.markdown-content h2 {
+  font-size: 1.2rem;
+  color: #a7f3d0;
+}
+.markdown-content h3 {
+  font-size: 1.05rem;
+  color: #fcd34d;
+}
+
+.markdown-content code {
+  background: rgba(30, 41, 59, 0.8);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.88em;
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }

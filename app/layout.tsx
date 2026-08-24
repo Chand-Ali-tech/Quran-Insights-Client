@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Explore divine wisdom, search verses across themes, and discover authentic translations with AI-powered semantic understanding and verified Quranic citations.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
 };
 

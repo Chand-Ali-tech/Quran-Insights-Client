@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "./components/Navbar";
 import { Sidebar, ConversationHistory } from "./components/Sidebar";
 import { ChatArea } from "./components/ChatArea";
@@ -12,7 +12,6 @@ import { DuasModal } from "./components/DuasModal";
 import { SettingsModal } from "./components/SettingsModal";
 import { AppSettings, ChatMessage, SourceAyah } from "./types";
 import {
-  checkBackendHealth,
   sendChatMessageJSON,
   sendChatMessageStream,
   DEFAULT_BACKEND_URL,
@@ -57,13 +56,6 @@ export default function HomePage() {
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  // Backend Health State
-  const [backendStatus, setBackendStatus] = useState<{
-    ok: boolean;
-    latencyMs: number;
-    checking: boolean;
-  }>({ ok: false, latencyMs: 0, checking: true });
-
   // Modal / Drawer visibility
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedAyah, setSelectedAyah] = useState<{
@@ -105,33 +97,9 @@ export default function HomePage() {
     }
   }, [settings]);
 
-  // ── Backend Health Check ─────────────────────────────────────────────────
-  const runHealthCheck = useCallback(() => {
-    setBackendStatus((prev) => ({ ...prev, checking: true }));
-    checkBackendHealth(settings.backendUrl).then((result) => {
-      setBackendStatus({
-        ok: result.ok,
-        latencyMs: result.latencyMs,
-        checking: false,
-      });
-    });
-  }, [settings.backendUrl]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      runHealthCheck();
-    }, 100);
-    const interval = setInterval(runHealthCheck, 30000);
-    return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
-    };
-  }, [runHealthCheck]);
-
   // ── Chat Handlers ────────────────────────────────────────────────────────
-  const saveConversationState = (msgs: ChatMessage[], convId?: string) => {
-    if (msgs.length === 0) return;
-    const targetId = convId || activeConvId || `conv-${Date.now()}`;
+  const saveConversationState = (msgs: ChatMessage[], convId: string) => {
+    if (msgs.length === 0 || !convId) return;
     const firstUserMsg = msgs.find((m) => m.role === "user");
     const title = firstUserMsg
       ? firstUserMsg.content.slice(0, 42) +
@@ -139,9 +107,9 @@ export default function HomePage() {
       : "Quran Wisdom";
 
     setConversations((prev) => {
-      const existingIdx = prev.findIndex((c) => c.id === targetId);
+      const existingIdx = prev.findIndex((c) => c.id === convId);
       const updatedItem: ConversationHistory = {
-        id: targetId,
+        id: convId,
         title,
         timestamp: Date.now(),
         messages: msgs,
@@ -154,14 +122,15 @@ export default function HomePage() {
       }
       return [updatedItem, ...prev];
     });
-
-    if (!activeConvId) {
-      setActiveConvId(targetId);
-    }
   };
 
   const handleSendMessage = async (queryText: string) => {
     if (!queryText.trim() || isLoading) return;
+
+    const targetConvId = activeConvId || `conv-${Date.now()}`;
+    if (!activeConvId) {
+      setActiveConvId(targetConvId);
+    }
 
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
@@ -230,7 +199,7 @@ export default function HomePage() {
                 const finished = curr.map((m) =>
                   m.id === assistantMsgId ? { ...m, isStreaming: false } : m,
                 );
-                saveConversationState(finished);
+                saveConversationState(finished, targetConvId);
                 return finished;
               });
             },
@@ -254,7 +223,7 @@ export default function HomePage() {
                   isStreaming: false,
                 });
                 setMessages(updated);
-                saveConversationState(updated);
+                saveConversationState(updated, targetConvId);
               } catch {
                 setMessages((curr) =>
                   curr.map((m) =>
@@ -302,7 +271,7 @@ export default function HomePage() {
           },
         ];
         setMessages(finishedMessages);
-        saveConversationState(finishedMessages);
+        saveConversationState(finishedMessages, targetConvId);
       } catch (err: unknown) {
         const errMsg = err instanceof Error ? err.message : String(err);
         setMessages([
@@ -382,16 +351,7 @@ export default function HomePage() {
         onOpenSurahs={() => setIsSurahsOpen(true)}
         onOpenTopics={() => setIsTopicsOpen(true)}
         onOpenDuas={() => setIsDuasOpen(true)}
-        onOpenSettings={() => setIsSettingsOpen(true)}
         onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
-        backendStatus={backendStatus}
-        isStreaming={settings.streamingEnabled}
-        onToggleStreaming={() =>
-          setSettings((prev) => ({
-            ...prev,
-            streamingEnabled: !prev.streamingEnabled,
-          }))
-        }
       />
 
       {/* ── Main App Layout ───────────────────────────────────────────────────── */}

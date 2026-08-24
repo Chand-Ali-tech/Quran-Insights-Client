@@ -42,10 +42,31 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
   const [playingVerseId, setPlayingVerseId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const isAutoScrollEnabled = useRef(true);
 
-  // Auto scroll to bottom on new message or stream chunk
+  // Monitor user scrolling to avoid locking scroll when user reads top verses
+  const handleScroll = () => {
+    if (!containerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+    isAutoScrollEnabled.current = distanceFromBottom < 150;
+  };
+
+  // Auto scroll to bottom only when appropriate
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length === 0) return;
+    const lastMsg = messages[messages.length - 1];
+
+    if (lastMsg.role === "user") {
+      isAutoScrollEnabled.current = true;
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
+    if (isAutoScrollEnabled.current) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages, isLoading]);
 
   const handleCopy = (id: string, text: string) => {
@@ -83,56 +104,67 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-6 ambient-bg islamic-geometry-bg">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div
+      ref={containerRef}
+      onScroll={handleScroll}
+      className={`flex-1 overflow-y-auto px-3 sm:px-6 ambient-bg islamic-geometry-bg ${
+        messages.length === 0
+          ? "flex flex-col justify-center py-2 sm:py-3"
+          : "pt-6 pb-20 space-y-6"
+      }`}
+    >
+      <div
+        className={`max-w-4xl w-full mx-auto space-y-6 ${
+          messages.length === 0 ? "my-auto" : ""
+        }`}
+      >
         {/* ── 1. Hero Welcome State (When No Messages) ────────────────────────── */}
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-6 text-center space-y-8 animate-fadeIn">
+          <div className="flex flex-col items-center justify-center text-center space-y-3 sm:space-y-4 animate-fadeIn">
             {/* Ambient Hero Glow */}
             <div className="relative flex flex-col items-center">
-              <div className="ambient-hero-glow absolute -inset-10 -z-10 rounded-full blur-3xl opacity-70" />
+              <div className="ambient-hero-glow absolute -inset-6 -z-10 rounded-full blur-2xl opacity-60" />
 
               {/* Bismillah Calligraphy */}
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-gradient-to-r from-amber-950/40 via-emerald-950/40 to-amber-950/40 px-6 py-2 shadow-lg shadow-amber-950/30">
-                <span className="font-arabic text-xl sm:text-2xl text-amber-300 drop-shadow-sm font-semibold tracking-wide">
+              <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-gradient-to-r from-amber-950/40 via-emerald-950/40 to-amber-950/40 px-4 py-1 shadow-md shadow-amber-950/30">
+                <span className="font-arabic text-base sm:text-lg text-amber-300 drop-shadow-sm font-semibold tracking-wide">
                   بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
                 </span>
               </div>
 
               {/* Hero Title & Subtitle */}
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-100 max-w-2xl leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-100 max-w-2xl leading-tight">
                 Divine Wisdom,{" "}
                 <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300 bg-clip-text text-transparent">
                   Illuminated by AI
                 </span>
               </h1>
 
-              <p className="mt-3 max-w-xl text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Ask questions across 6,236 verses in English, Urdu, or Arabic.
-                Receive authentic answers backed by semantic vector citations,
-                Arabic script, and recitations.
+              <p className="mt-1.5 max-w-lg text-xs text-slate-400 leading-normal">
+                Ask questions across 6,236 verses in English, Urdu, or Arabic
+                with authentic citations & recitations.
               </p>
             </div>
 
             {/* Simple Curated Questions (No heavy boxes) */}
-            <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-3xl mx-auto pt-1">
+            <div className="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto pt-0.5">
               {CURATED_HERO_PROMPTS.map((item) => {
                 const isArOrUr = item.lang === "ar" || item.lang === "ur";
                 return (
                   <button
                     key={item.id}
                     onClick={() => onSelectPrompt(item.query)}
-                    className="group inline-flex items-center gap-2 rounded-full border border-slate-800/80 bg-slate-900/40 px-4 py-2 text-xs sm:text-sm text-slate-300 transition-all hover:border-emerald-500/40 hover:bg-emerald-950/30 hover:text-emerald-200 shadow-sm"
+                    className="group inline-flex items-center gap-1.5 rounded-full border border-slate-800/80 bg-slate-900/60 px-3.5 py-1.5 text-xs text-slate-300 transition-all hover:border-emerald-500/40 hover:bg-emerald-950/40 hover:text-emerald-200 shadow-sm"
                   >
-                    <span className="text-amber-400 text-xs transition-transform group-hover:scale-110">
+                    <span className="text-amber-400 text-[10px] transition-transform group-hover:scale-110">
                       ✦
                     </span>
                     <span
                       className={
-                        isArOrUr ? "font-arabic text-sm leading-relaxed" : ""
+                        isArOrUr ? "font-arabic text-xs leading-normal" : ""
                       }
                     >
-                      {item.query}
+                      {item.label}
                     </span>
                   </button>
                 );

@@ -121,6 +121,8 @@ export async function sendChatMessageStream(
     const decoder = new TextDecoder("utf-8");
     let buffer = "";
 
+    let isDone = false;
+
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
@@ -148,7 +150,10 @@ export async function sendChatMessageStream(
           } else if (event.type === "token") {
             callbacks.onToken?.(event.content || "");
           } else if (event.type === "done") {
-            callbacks.onDone?.();
+            if (!isDone) {
+              isDone = true;
+              callbacks.onDone?.();
+            }
           }
         } catch {
           // Ignore partial parse
@@ -156,7 +161,10 @@ export async function sendChatMessageStream(
       }
     }
 
-    callbacks.onDone?.();
+    if (!isDone) {
+      isDone = true;
+      callbacks.onDone?.();
+    }
   } catch (err: unknown) {
     if (abortSignal?.aborted) return;
     const errorObj = err instanceof Error ? err : new Error(String(err));

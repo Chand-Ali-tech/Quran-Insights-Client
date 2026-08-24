@@ -1109,46 +1109,45 @@ export const CATEGORIZED_PROMPT_SUGGESTIONS = [
 
 export interface HeroPrompt {
   id: string;
-  tag: string;
   lang: "en" | "ur" | "ar";
-  title: string;
+  label: string;
   query: string;
 }
 
 export const CURATED_HERO_PROMPTS: HeroPrompt[] = [
   {
     id: "p-1",
-    tag: "English • Guidance",
     lang: "en",
-    title: "Patience in Hardship",
-    query: "What does the Quran teach about patience (Sabr) during trials and difficulty?",
+    label: "Patience (Sabr) in Hardship",
+    query:
+      "What does the Quran teach about patience (Sabr) during trials and difficulty?",
   },
   {
     id: "p-2",
-    tag: "English • Reflection",
     lang: "en",
-    title: "Inner Peace through Dhikr",
-    query: "What verses discuss finding tranquility and peace of heart through the remembrance of Allah?",
+    label: "Peace of Heart through Dhikr",
+    query:
+      "What verses discuss finding tranquility and peace of heart through the remembrance of Allah?",
   },
   {
     id: "p-3",
-    tag: "اردو • حکمت و فضائل",
     lang: "ur",
-    title: "صبر اور شکر کی فضیلت",
-    query: "قرآن مجید میں صبر اور شکر کے بارے میں کیا ہدایات اور فضائل بیان ہوئے ہیں؟",
+    label: "صبر اور شکر کی فضیلت",
+    query:
+      "قرآن مجید میں صبر اور شکر کے بارے میں کیا ہدایات اور فضائل بیان ہوئے ہیں؟",
   },
   {
     id: "p-4",
-    tag: "اردو • اخلاقیات",
     lang: "ur",
-    title: "والدین کے ساتھ حسن سلوک",
-    query: "والدین کی خدمت اور ان کے ساتھ حسنِ سلوک کے بارے میں قرآنی تعلیمات کیا ہیں؟",
+    label: "والدین کے ساتھ حسنِ سلوک",
+    query:
+      "والدین کی خدمت اور ان کے ساتھ حسنِ سلوک کے بارے میں قرآنی تعلیمات کیا ہیں؟",
   },
   {
     id: "p-5",
-    tag: "العربية • تأملات",
     lang: "ar",
-    title: "طمأنينة القلب وانشراح الصدر",
-    query: "ما هي الآيات التي تتحدث عن طمأنينة القلب وانشراح الصدر في القرآن الكريم؟",
+    label: "طمأنينة القلب والسكينة",
+    query:
+      "ما هي الآيات التي تتحدث عن طمأنينة القلب وانشراح الصدر في القرآن الكريم؟",
   },
 ];

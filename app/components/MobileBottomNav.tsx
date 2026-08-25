@@ -39,7 +39,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   return (
     <nav
       aria-label="Mobile Navigation"
-      className="md:hidden sticky bottom-0 z-30 w-full border-t border-slate-800/90 bg-[#070d14]/95 backdrop-blur-xl px-2 py-1.5 shadow-[0_-8px_20px_rgba(0,0,0,0.6)]"
+      className="md:hidden flex-shrink-0 z-30 w-full border-t border-slate-800/90 bg-[#070d14]/95 backdrop-blur-xl px-2 py-1.5 shadow-[0_-8px_20px_rgba(0,0,0,0.6)]"
     >
       <div className="flex items-center justify-around max-w-md mx-auto">
         {/* 1. Home Screen Tab */}

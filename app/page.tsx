@@ -352,7 +352,7 @@ export default function HomePage() {
   const bookmarkedIds = new Set(bookmarks.map((b) => b.verse_id));
 
   return (
-    <div className="flex h-screen w-full flex-col bg-[#070d14] text-slate-100 antialiased overflow-hidden">
+    <div className="flex h-screen h-[100dvh] w-full flex-col bg-[#070d14] text-slate-100 antialiased overflow-hidden">
       {/* ── Top Navbar ────────────────────────────────────────────────────────── */}
       <Navbar
         onNewChat={handleNewChat}
@@ -411,17 +411,17 @@ export default function HomePage() {
             isLoading={isLoading}
             onStopStreaming={handleStopStreaming}
           />
-
-          {/* Mobile Bottom Tab Bar: Home, 114 Surahs, Themes, Duas */}
-          <MobileBottomNav
-            onHome={handleNewChat}
-            onOpenSurahs={() => setIsSurahsOpen(true)}
-            onOpenTopics={() => setIsTopicsOpen(true)}
-            onOpenDuas={() => setIsDuasOpen(true)}
-            isHomeActive={messages.length === 0}
-          />
         </main>
       </div>
+
+      {/* ── Fixed Mobile Bottom Tab Bar (Always Visible at Screen Bottom) ──────── */}
+      <MobileBottomNav
+        onHome={handleNewChat}
+        onOpenSurahs={() => setIsSurahsOpen(true)}
+        onOpenTopics={() => setIsTopicsOpen(true)}
+        onOpenDuas={() => setIsDuasOpen(true)}
+        isHomeActive={messages.length === 0}
+      />
 
       {/* ── Interactive Modals & Drawers ──────────────────────────────────────── */}
       {selectedAyah && (

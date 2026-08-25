@@ -197,8 +197,13 @@ body {
 /* ── Prose Markdown Polish for Quran Q&A ────────────────────────────────── */
 .markdown-content p {
   margin-bottom: 0.9rem;
-  line-height: 1.8;
+  line-height: 1.85;
   color: #e2e8f0;
+}
+
+.markdown-content[dir="rtl"] p {
+  line-height: 2.2;
+  font-size: 1.1rem;
 }
 
 .markdown-content p:last-child {
@@ -209,50 +214,104 @@ body {
   color: #6ee7b7;
   font-weight: 700;
   background: rgba(16, 185, 129, 0.14);
-  padding: 0.1rem 0.4rem;
+  padding: 0.12rem 0.45rem;
   border-radius: 0.375rem;
   border: 1px solid rgba(52, 211, 153, 0.28);
   display: inline-block;
-  line-height: 1.35;
+  line-height: 1.4;
   margin: 0 0.15rem;
 }
 
 .markdown-content ul {
   list-style: none;
   padding-left: 0;
-  margin-top: 0.6rem;
+  padding-right: 0;
+  margin-top: 0.65rem;
   margin-bottom: 1rem;
 }
 
-.markdown-content ul > li {
+/* ── English / LTR Points (Left-aligned) ─────────────────────────────────── */
+.markdown-content[dir="ltr"] ul > li,
+.markdown-content:not([dir="rtl"]) ul > li {
   position: relative;
-  padding-left: 1.5rem;
-  margin-bottom: 0.75rem;
-  line-height: 1.75;
-  color: #e2e8f0;
+  padding-left: 1.65rem;
+  padding-right: 0;
+  margin-bottom: 0.85rem;
+  line-height: 1.85;
+  font-size: 1.05rem; /* Larger points */
+  color: #f1f5f9;
+  text-align: left;
 }
 
-.markdown-content ul > li::before {
+.markdown-content[dir="ltr"] ul > li::before,
+.markdown-content:not([dir="rtl"]) ul > li::before {
   content: "✦";
   position: absolute;
   left: 0.15rem;
-  top: 0.05rem;
+  right: auto;
+  top: 0.1rem;
   color: #34d399;
-  font-size: 0.85em;
+  font-size: 0.9em;
 }
 
+/* ── Urdu & Arabic / RTL Points (Right-aligned) ──────────────────────────── */
+.markdown-content[dir="rtl"] ul > li {
+  position: relative;
+  padding-right: 1.85rem;
+  padding-left: 0;
+  margin-bottom: 0.95rem;
+  line-height: 2.2;
+  font-size: 1.15rem; /* Larger Arabic / Urdu typography */
+  color: #f8fafc;
+  text-align: right;
+}
+
+.markdown-content[dir="rtl"] ul > li::before {
+  content: "✦";
+  position: absolute;
+  right: 0.15rem;
+  left: auto;
+  top: 0.15rem;
+  color: #fbbf24;
+  font-size: 0.95em;
+}
+
+/* Numbered Lists */
 .markdown-content ol {
-  list-style-type: decimal;
-  padding-left: 1.4rem;
-  margin-top: 0.6rem;
+  padding-top: 0.25rem;
   margin-bottom: 1rem;
 }
 
-.markdown-content ol > li {
-  margin-bottom: 0.75rem;
-  line-height: 1.75;
-  color: #e2e8f0;
+.markdown-content[dir="ltr"] ol,
+.markdown-content:not([dir="rtl"]) ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  padding-right: 0;
+  text-align: left;
+}
+
+.markdown-content[dir="ltr"] ol > li,
+.markdown-content:not([dir="rtl"]) ol > li {
+  margin-bottom: 0.85rem;
+  line-height: 1.85;
+  font-size: 1.05rem;
+  color: #f1f5f9;
   padding-left: 0.35rem;
+}
+
+.markdown-content[dir="rtl"] ol {
+  list-style-type: decimal;
+  padding-right: 1.75rem;
+  padding-left: 0;
+  text-align: right;
+}
+
+.markdown-content[dir="rtl"] ol > li {
+  margin-bottom: 0.95rem;
+  line-height: 2.2;
+  font-size: 1.15rem;
+  color: #f8fafc;
+  padding-right: 0.35rem;
 }
 
 .markdown-content blockquote {

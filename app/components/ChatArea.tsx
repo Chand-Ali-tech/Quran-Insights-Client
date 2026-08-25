@@ -164,6 +164,10 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
           /* ── 2. Active Chat Stream ────────────────────────────────────────── */
           messages.map((msg) => {
             const isUser = msg.role === "user";
+            const isRTL =
+              /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(
+                msg.content,
+              );
 
             return (
               <div
@@ -197,9 +201,23 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                     }`}
                   >
                     {isUser ? (
-                      <p className="whitespace-pre-wrap">{msg.content}</p>
+                      <p
+                        dir={isRTL ? "rtl" : "ltr"}
+                        className={`whitespace-pre-wrap ${
+                          isRTL
+                            ? "font-arabic text-right text-base sm:text-lg"
+                            : ""
+                        }`}
+                      >
+                        {msg.content}
+                      </p>
                     ) : msg.content ? (
-                      <div className="markdown-content space-y-2 select-text">
+                      <div
+                        dir={isRTL ? "rtl" : "ltr"}
+                        className={`markdown-content space-y-2 select-text ${
+                          isRTL ? "font-arabic text-right" : "text-left"
+                        }`}
+                      >
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {msg.content}
                         </ReactMarkdown>

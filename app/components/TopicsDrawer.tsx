@@ -18,41 +18,40 @@ export const TopicsDrawer: React.FC<TopicsDrawerProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-black/80 backdrop-blur-md">
       <div
-        className="relative flex w-full max-w-4xl max-h-[88vh] flex-col rounded-2xl border border-slate-800 bg-[#09111c] shadow-2xl overflow-hidden"
+        className="relative flex w-full max-w-4xl max-h-[92dvh] sm:max-h-[88vh] flex-col rounded-2xl border border-slate-800 bg-[#09111c] shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 bg-[#060c14] px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-950/60 border border-teal-500/30 text-teal-300">
-              <Compass className="h-5 w-5 text-teal-400" />
+        <div className="flex items-center justify-between border-b border-slate-800 bg-[#060c14] px-3.5 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-xl bg-teal-950/60 border border-teal-500/30 text-teal-300">
+              <Compass className="h-4 w-4 sm:h-5 sm:w-5 text-teal-400" />
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-lg font-bold text-slate-100 flex items-center gap-1.5 sm:gap-2 truncate">
                 <span>Thematic Quran Insights</span>
-                <span className="text-xs text-teal-400 border border-teal-500/30 bg-teal-950/40 rounded-full px-2 py-0.5 font-medium">
-                  Spiritual Themes
+                <span className="text-[10px] sm:text-xs text-teal-400 border border-teal-500/30 bg-teal-950/40 rounded-full px-1.5 sm:px-2 py-0.5 font-medium flex-shrink-0">
+                  {QURAN_TOPICS.length} Themes
                 </span>
               </h2>
-              <p className="text-xs text-slate-400">
-                Explore deep wisdom, ethics, and principles across Quranic
-                themes.
+              <p className="text-[11px] sm:text-xs text-slate-400 truncate">
+                Explore deep wisdom across Quranic themes.
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+            className="flex h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 items-center justify-center rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Topics Grid */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex-1 overflow-y-auto p-2.5 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-4">
           {QURAN_TOPICS.map((topic) => (
             <div
               key={topic.id}

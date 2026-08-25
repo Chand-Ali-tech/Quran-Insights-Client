@@ -38,60 +38,59 @@ export const SurahsDrawer: React.FC<SurahsDrawerProps> = ({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-black/80 backdrop-blur-md">
       <div
-        className="relative flex w-full max-w-4xl max-h-[88vh] flex-col rounded-2xl border border-slate-800 bg-[#09111c] shadow-2xl overflow-hidden"
+        className="relative flex w-full max-w-4xl max-h-[92dvh] sm:max-h-[88vh] flex-col rounded-2xl border border-slate-800 bg-[#09111c] shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 bg-[#060c14] px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-950/60 border border-amber-500/30 text-amber-300">
-              <BookOpen className="h-5 w-5 text-amber-400" />
+        <div className="flex items-center justify-between border-b border-slate-800 bg-[#060c14] px-3.5 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-xl bg-amber-950/60 border border-amber-500/30 text-amber-300">
+              <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-amber-400" />
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-                <span>The Noble Quran — 114 Surahs</span>
-                <span className="text-xs text-amber-400 border border-amber-500/30 bg-amber-950/40 rounded-full px-2 py-0.5 font-medium">
-                  {filteredSurahs.length} Chapters
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-lg font-bold text-slate-100 flex items-center gap-1.5 sm:gap-2 truncate">
+                <span>The Noble Quran</span>
+                <span className="text-[10px] sm:text-xs text-amber-400 border border-amber-500/30 bg-amber-950/40 rounded-full px-1.5 sm:px-2 py-0.5 font-medium flex-shrink-0">
+                  {filteredSurahs.length} Surahs
                 </span>
               </h2>
-              <p className="text-xs text-slate-400">
-                Explore chapters, discover revelations, or ask AI for in-depth
-                insights.
+              <p className="text-[11px] sm:text-xs text-slate-400 truncate">
+                Explore chapters or ask AI for in-depth insights.
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
+            className="flex h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 items-center justify-center rounded-xl border border-slate-800 bg-slate-900/80 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Search & Filter Toolbar */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 border-b border-slate-800/80 bg-slate-900/40 p-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 border-b border-slate-800/80 bg-slate-900/40 p-2.5 sm:p-4">
           <div className="relative flex-1 w-full">
-            <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-500" />
+            <Search className="pointer-events-none absolute left-3 top-2.5 sm:top-3 h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by Surah name (e.g. Al-Kahf, Yasin), English name, or number (1-114)..."
-              className="w-full rounded-xl border border-slate-800 bg-slate-900/90 py-2 pl-9 pr-4 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:border-emerald-500/40 focus:outline-none"
+              placeholder="Search by Surah name, English, or number (1-114)..."
+              className="w-full rounded-xl border border-slate-800 bg-slate-900/90 py-1.5 sm:py-2 pl-8 sm:pl-9 pr-3 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:border-emerald-500/40 focus:outline-none"
             />
           </div>
 
           {/* Place of Revelation Filter */}
-          <div className="flex items-center gap-1.5 self-start sm:self-auto">
-            <Filter className="h-3.5 w-3.5 text-slate-500" />
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 sm:pb-0">
+            <Filter className="h-3.5 w-3.5 text-slate-500 flex-shrink-0" />
             {(["all", "Meccan", "Medinan"] as const).map((type) => (
               <button
                 key={type}
                 onClick={() => setFilterType(type)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+                className={`rounded-lg px-2.5 sm:px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs font-medium whitespace-nowrap transition-all ${
                   filterType === type
                     ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
                     : "border border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200"
@@ -104,7 +103,7 @@ export const SurahsDrawer: React.FC<SurahsDrawerProps> = ({
         </div>
 
         {/* Surahs Grid */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="flex-1 overflow-y-auto p-2.5 sm:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3">
           {filteredSurahs.map((surah) => (
             <div
               key={surah.number}

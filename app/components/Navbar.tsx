@@ -54,8 +54,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Center / Right: Module Navigation Pills */}
-        <div className="flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-900/70 p-1">
+        {/* Center / Right: Module Navigation Pills (Visible on Tablet & Desktop) */}
+        <div className="hidden md:flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-900/70 p-1">
           <button
             onClick={onOpenSurahs}
             className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-slate-400 transition-all hover:bg-slate-800 hover:text-slate-200"

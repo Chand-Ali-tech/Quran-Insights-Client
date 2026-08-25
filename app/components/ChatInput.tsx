@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Square, Globe, Trash2, Sparkles, CornerDownLeft } from "lucide-react";
+import {
+  Send,
+  Square,
+  Globe,
+  Trash2,
+  Sparkles,
+  CornerDownLeft,
+} from "lucide-react";
 
 interface ChatInputProps {
   onSendMessage: (query: string) => void;
@@ -16,6 +23,16 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 }) => {
   const [input, setInput] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Track small screen width for compact placeholder
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Detect Arabic/Urdu unicode characters directly during render
   const isRTL =
@@ -53,11 +70,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-3 sm:px-6 pb-3 pt-1">
+    <div className="w-full max-w-4xl mx-auto px-3 sm:px-6 pb-2 pt-1">
       {/* Main Input Box with Ambient Emerald Framing */}
-      <div className="glass-input-box relative flex flex-col rounded-2xl p-2.5 sm:p-3 transition-all">
+      <div className="glass-input-box relative flex flex-col rounded-2xl p-2 sm:p-3 transition-all">
         {/* Upper Input Row */}
-        <div className="flex items-start gap-2.5">
+        <div className="flex items-start gap-2 sm:gap-2.5">
           {/* Left Decorative Prompt Indicator */}
           <div className="hidden sm:flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-950/70 border border-emerald-500/30 text-emerald-400 mt-0.5 shadow-inner">
             <Sparkles className="h-4 w-4 text-emerald-400 animate-pulse" />
@@ -74,8 +91,12 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               onKeyDown={handleKeyDown}
               placeholder={
                 isRTL
-                  ? "قرآن مجید سے متعلق اپنا سوال یہاں درج کریں..."
-                  : "Ask your question about Quranic verses, wisdom, or life guidance..."
+                  ? isMobile
+                    ? "اپنا سوال درج کریں..."
+                    : "قرآن مجید سے متعلق اپنا سوال یہاں درج کریں..."
+                  : isMobile
+                    ? "Ask a question..."
+                    : "Ask your question about Quranic verses, wisdom, or life guidance..."
               }
               className={`w-full resize-none bg-transparent px-1 py-1.5 text-sm sm:text-base text-slate-100 placeholder-slate-400/80 focus:outline-none max-h-40 ${
                 isRTL ? "font-arabic text-base sm:text-lg" : ""

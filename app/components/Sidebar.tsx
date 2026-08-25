@@ -264,21 +264,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-slate-800/80 px-4 py-2.5 bg-[#050b12]">
-          <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
-            <span>Powered by</span>
-            <span className="font-semibold text-slate-300">FastAPI & RAG</span>
-          </div>
-
-          {conversations.length > 0 && (
+        {conversations.length > 0 && (
+          <div className="flex items-center justify-end border-t border-slate-800/80 px-4 py-2 bg-[#050b12]">
             <button
               onClick={onClearAllConversations}
               className="text-[11px] text-slate-500 hover:text-rose-400 transition-colors"
             >
-              Clear All
+              Clear All Chats
             </button>
-          )}
-        </div>
+          </div>
+        )}
       </aside>
     </>
   );

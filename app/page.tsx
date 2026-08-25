@@ -10,6 +10,7 @@ import { SurahsDrawer } from "./components/SurahsDrawer";
 import { TopicsDrawer } from "./components/TopicsDrawer";
 import { DuasModal } from "./components/DuasModal";
 import { SettingsModal } from "./components/SettingsModal";
+import { MobileBottomNav } from "./components/MobileBottomNav";
 import { AppSettings, ChatMessage, SourceAyah } from "./types";
 import {
   sendChatMessageJSON,
@@ -409,6 +410,15 @@ export default function HomePage() {
             onSendMessage={handleSendMessage}
             isLoading={isLoading}
             onStopStreaming={handleStopStreaming}
+          />
+
+          {/* Mobile Bottom Tab Bar: Home, 114 Surahs, Themes, Duas */}
+          <MobileBottomNav
+            onHome={handleNewChat}
+            onOpenSurahs={() => setIsSurahsOpen(true)}
+            onOpenTopics={() => setIsTopicsOpen(true)}
+            onOpenDuas={() => setIsDuasOpen(true)}
+            isHomeActive={messages.length === 0}
           />
         </main>
       </div>

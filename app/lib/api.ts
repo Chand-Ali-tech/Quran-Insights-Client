@@ -1,7 +1,6 @@
 import { AyahDetail, SourceAyah } from "../types";
 
-export const DEFAULT_BACKEND_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://quran-insights-server.fastapicloud.dev";
+export const DEFAULT_BACKEND_URL = "https://quran-insights-server.fastapicloud.dev";
 
 /**
  * Formats a Surah and Ayah number into 3-digit strings for audio fetching.

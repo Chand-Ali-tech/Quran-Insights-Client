@@ -41,38 +41,24 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [playingVerseId, setPlayingVerseId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const isAutoScrollEnabled = useRef(true);
+  const lastUserMsgIdRef = useRef<string | null>(null);
 
-  // Monitor user scrolling to avoid locking scroll when user reads top verses
-  const handleScroll = () => {
-    if (!containerRef.current) return;
-    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
-    isAutoScrollEnabled.current = distanceFromBottom < 150;
-  };
-
-  // Auto scroll to bottom only when appropriate
+  // Scroll to the start of the newly asked question so the user reads from the top
   useEffect(() => {
     if (messages.length === 0) return;
-    const lastMsg = messages[messages.length - 1];
+    const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
 
-    if (lastMsg.role === "user") {
-      isAutoScrollEnabled.current = true;
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      return;
+    if (lastUserMsg && lastUserMsg.id !== lastUserMsgIdRef.current) {
+      lastUserMsgIdRef.current = lastUserMsg.id;
+      // Smoothly bring the new question into view at the top of the screen
+      setTimeout(() => {
+        const el = document.getElementById(`msg-${lastUserMsg.id}`);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 50);
     }
-
-    if (isAutoScrollEnabled.current && containerRef.current) {
-      if (lastMsg.isStreaming) {
-        // Instant direct scroll prevents animation frame collisions and eliminates screen shaking
-        containerRef.current.scrollTop = containerRef.current.scrollHeight;
-      } else {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [messages, isLoading]);
+  }, [messages]);
 
   const handleCopy = (id: string, text: string) => {
     navigator.clipboard.writeText(text);
@@ -110,8 +96,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
 
   return (
     <div
-      ref={containerRef}
-      onScroll={handleScroll}
       className={`flex-1 overflow-y-auto px-3 sm:px-6 ambient-bg islamic-geometry-bg ${
         messages.length === 0
           ? "flex flex-col justify-center py-2 sm:py-3"
@@ -131,78 +115,76 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
               <div className="ambient-hero-glow absolute -inset-6 -z-10 rounded-full blur-2xl opacity-60" />
 
               {/* Bismillah Calligraphy */}
-              <div className="mb-0.5 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-950/40 px-3.5 py-1 text-xs text-emerald-300 shadow-inner">
-                <span className="font-arabic text-sm text-amber-300">۞</span>
-                <span className="font-arabic tracking-wide text-xs">
-                  بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+              <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-gradient-to-r from-amber-950/40 via-emerald-950/40 to-amber-950/40 px-4 py-1 shadow-md shadow-amber-950/30">
+                <span className="font-arabic text-base sm:text-lg text-amber-300 drop-shadow-sm font-semibold tracking-wide">
+                  بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
                 </span>
-                <span className="font-arabic text-sm text-amber-300">۞</span>
               </div>
 
-              {/* Title Header */}
-              <h1 className="mt-2 text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-                Quranic{" "}
+              {/* Hero Title & Subtitle */}
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-100 max-w-2xl leading-tight">
+                Divine Wisdom,{" "}
                 <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300 bg-clip-text text-transparent">
-                  Insights
+                  Illuminated by AI
                 </span>
               </h1>
-              <p className="mt-1 text-xs sm:text-sm text-slate-400 max-w-lg">
-                Explore deep authentic wisdom, tafsir, thematic connections, and
-                multilingual answers directly grounded in the Holy Quran.
+
+              <p className="mt-1.5 max-w-lg text-xs text-slate-400 leading-normal">
+                Ask questions across 6,236 verses in English, Urdu, or Arabic
+                with authentic citations & recitations.
               </p>
             </div>
 
-            {/* ── Curated Multilingual Question Pills ─────────────────────── */}
-            <div className="w-full max-w-3xl pt-2">
-              <div className="flex flex-wrap items-center justify-center gap-2">
-                {CURATED_HERO_PROMPTS.map((item) => {
-                  const isArOrUr = item.lang === "ar" || item.lang === "ur";
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => onSelectPrompt(item.query)}
-                      className="group inline-flex items-center gap-1.5 rounded-full border border-slate-800/80 bg-slate-900/60 px-3.5 py-1.5 text-xs text-slate-300 transition-all hover:border-emerald-500/40 hover:bg-emerald-950/40 hover:text-emerald-200 shadow-sm"
+            {/* Simple Curated Questions (No heavy boxes) */}
+            <div className="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto pt-0.5">
+              {CURATED_HERO_PROMPTS.map((item) => {
+                const isArOrUr = item.lang === "ar" || item.lang === "ur";
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => onSelectPrompt(item.query)}
+                    className="group inline-flex items-center gap-1.5 rounded-full border border-slate-800/80 bg-slate-900/60 px-3.5 py-1.5 text-xs text-slate-300 transition-all hover:border-emerald-500/40 hover:bg-emerald-950/40 hover:text-emerald-200 shadow-sm"
+                  >
+                    <span className="text-amber-400 text-[10px] transition-transform group-hover:scale-110">
+                      ✦
+                    </span>
+                    <span
+                      className={
+                        isArOrUr ? "font-arabic text-xs leading-normal" : ""
+                      }
                     >
-                      <span className="text-amber-400 text-[10px] transition-transform group-hover:scale-110">
-                        ✦
-                      </span>
-                      <span
-                        className={
-                          isArOrUr ? "font-arabic text-xs leading-normal" : ""
-                        }
-                      >
-                        {item.label}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+                      {item.label}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         ) : (
-          /* ── 2. Active Chat Messages ─────────────────────────────────────── */
+          /* ── 2. Active Chat Stream ────────────────────────────────────────── */
           messages.map((msg) => {
             const isUser = msg.role === "user";
 
             return (
               <div
                 key={msg.id}
-                className={`flex gap-3 sm:gap-4 items-start ${
-                  isUser ? "justify-end" : "justify-start"
+                id={`msg-${msg.id}`}
+                className={`flex gap-3 sm:gap-4 scroll-mt-6 ${
+                  isUser ? "justify-end pt-2" : "justify-start"
                 } animate-fadeIn`}
               >
                 {/* Assistant Avatar */}
                 {!isUser && (
                   <div className="flex-shrink-0">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 text-amber-300 shadow-md border border-emerald-400/30 font-arabic font-bold text-sm">
-                      ۞
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 via-teal-700 to-emerald-950 border border-emerald-400/30 shadow-md shadow-emerald-950/40 text-amber-300">
+                      <span className="text-sm font-arabic font-bold">۞</span>
                     </div>
                   </div>
                 )}
 
                 {/* Message Bubble Container */}
                 <div
-                  className={`flex flex-col space-y-2 max-w-[92%] sm:max-w-[85%] ${
+                  className={`flex flex-col max-w-[92%] sm:max-w-[82%] space-y-2 ${
                     isUser ? "items-end" : "items-start"
                   }`}
                 >
@@ -424,8 +406,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
               </div>
             </div>
           )}
-
-        <div ref={messagesEndRef} />
       </div>
     </div>
   );

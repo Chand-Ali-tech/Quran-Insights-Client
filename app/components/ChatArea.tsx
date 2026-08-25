@@ -177,10 +177,8 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                   isUser ? "justify-end pt-2" : "justify-start"
                 } animate-fadeIn`}
               >
-                {/* Assistant Avatar */}
                 {/* Assistant Avatar (Visible on Tablet & Desktop) */}
                 {!isUser && (
-                  <div className="flex-shrink-0">
                   <div className="hidden sm:flex flex-shrink-0">
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 via-teal-700 to-emerald-950 border border-emerald-400/30 shadow-md shadow-emerald-950/40 text-amber-300">
                       <span className="text-sm font-arabic font-bold">۞</span>
@@ -190,16 +188,18 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
 
                 {/* Message Bubble Container */}
                 <div
-                  className={`flex flex-col max-w-[92%] sm:max-w-[82%] space-y-2 ${
-                    isUser ? "items-end" : "items-start"
                   className={`flex flex-col w-full sm:max-w-[85%] space-y-1.5 sm:space-y-2 ${
-                    isUser ? "items-end ml-auto max-w-[92%] sm:max-w-[80%]" : "items-start"
+                    isUser
+                      ? "items-end ml-auto max-w-[92%] sm:max-w-[80%]"
+                      : "items-start"
                   }`}
                 >
                   {/* Mobile-Only Top Title Row for Assistant (takes 1 single row, freeing full column width) */}
                   {!isUser && (
                     <div className="sm:hidden flex items-center gap-1.5 px-1 pt-0.5">
-                      <span className="text-amber-400 font-arabic text-xs font-bold">۞</span>
+                      <span className="text-amber-400 font-arabic text-xs font-bold">
+                        ۞
+                      </span>
                       <span className="text-[11px] font-semibold text-emerald-300 tracking-wide">
                         Quran Insights
                       </span>
@@ -208,10 +208,8 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
 
                   {/* Bubble Content */}
                   <div
-                    className={`rounded-2xl p-4 sm:p-5 text-sm sm:text-base leading-relaxed ${
                     className={`w-full rounded-2xl p-3.5 sm:p-5 text-sm sm:text-base leading-relaxed ${
                       isUser
-                        ? "bg-gradient-to-br from-emerald-700 to-teal-800 text-white rounded-tr-sm shadow-md shadow-emerald-950/30"
                         ? "bg-gradient-to-br from-emerald-700 to-teal-800 text-white rounded-tr-sm shadow-md shadow-emerald-950/30 w-auto"
                         : "glass-panel border border-slate-800/90 text-slate-100 rounded-tl-sm shadow-lg shadow-black/40"
                     }`}
@@ -413,10 +411,8 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
                   </div>
                 </div>
 
-                {/* User Avatar */}
                 {/* User Avatar (Visible on Tablet & Desktop) */}
                 {isUser && (
-                  <div className="flex-shrink-0">
                   <div className="hidden sm:flex flex-shrink-0">
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-800 border border-slate-700 text-slate-300">
                       <User className="h-4 w-4" />

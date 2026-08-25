@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📖 Quran Insights — AI-Powered Web Client
 
-## Getting Started
+[![Live Application](https://img.shields.io/badge/Live_App-quraninsights--ai.vercel.app-10b981?style=for-the-badge&logo=vercel)](https://quraninsights-ai.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
-First, run the development server:
+**Quran Insights** is a modern, AI-powered conversational application designed to help seekers explore authentic Quranic wisdom, thematic connections, and guidance grounded strictly in the 6,236 verses of the Holy Quran in three languages(english, arabic, urdu).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🔗 **Live Web App**: [https://quraninsights-ai.vercel.app](https://quraninsights-ai.vercel.app)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Key Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **⚡ Real-Time Streaming AI Responses**: Token-by-token streaming over Server-Sent Events (SSE) for zero waiting time.
+- **📜 Grounded Quranic Citations**: Every insight cites exact Surah and Verse IDs, displaying authentic Arabic text, English/Urdu translations, and revelation context.
+- **🔊 Verse-by-Verse Audio Recitations**: Instant audio recitation for every cited Ayah by Qari Sheikh Mishary Rashid Alafasy.
+- **🌍 Multilingual Intelligence**: Seamless support for questions in English, Urdu (اردو), and Arabic (العربية) with native RTL typography.
+- **📚 Integrated Exploration Hubs**:
+  - **114 Surahs Directory**: Search and filter chapters by number, English/Roman names, or revelation place (Meccan/Medinan).
+  - **Thematic Wisdom**: Explore core spiritual themes (Patience, Faith, Gratitude, Justice, Repentance).
+  - **Quranic Rabbana Duas**: Discover and copy timeless prophetic supplications.
+- **📱 Responsive Mobile Experience**: Bottom navigation tab bar and layout optimized for mobile screens.
+- **💾 Local History & Bookmarks**: Save conversations and bookmark verses with local persistence.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Turbopack)
+- **UI Library**: [React 19](https://react.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) with custom Islamic ambient glassmorphism
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Markdown & Code**: `react-markdown` with GitHub Flavored Markdown (`remark-gfm`)
+- **Typography**: Arabic calligraphic fonts (`Amiri`, `Scheherazade New`) & `Geist`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
